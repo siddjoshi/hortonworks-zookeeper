@@ -1,7 +1,7 @@
 FROM centos:7
 #ENV    ZOOKEEPER_CONF_DIR=/usr/hdp/3.1.0.0-78/zookeeper/conf \
 #        ZOOKEEPER_HOME=/usr/hdp/3.1.0.0-78/zookeeper \
-ENV    ZOOKEEPER_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper-server/logs \
+ENV    ZOOKEEPER_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper/logs \
        ZOOKEEPER_PID_DIR=/etc/zookeeper/pid \
        ZOOKEEPER_DATA_DIR=/etc/zookeeper/data \
        ZOOKEEPER_USER=zookeeper \
@@ -9,7 +9,6 @@ ENV    ZOOKEEPER_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper-server/logs \
 RUN groupadd zookeeper; \
     useradd zookeeper -g zookeeper 
 
-# RUN mkdir -p /grid/hadoop/zookeeper/data
 RUN mkdir -p ${ZOOKEEPER_LOG_DIR} ${ZOOKEEPER_PID_DIR} ${ZOOKEEPER_DATA_DIR}
 
 ###
