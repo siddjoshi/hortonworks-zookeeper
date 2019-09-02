@@ -10,8 +10,10 @@ ENV    ZOOKEEPER_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper/logs \
        ZK_USER=zookeeper \
        ZK_DATA_DIR=/etc/zookeeper/data \
        ZK_DATA_LOG_DIR=/etc/zookeeper/data \ 
-       ZK_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper/logs \
-       JAVA_HOME=/usr/java/default
+       ZK_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper/logs 
+       #JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.231-2.6.19.1.el7_6.x86_64
+       #JAVA_HOME=/usr/java/default
+      
 RUN groupadd zookeeper; \
     useradd zookeeper -g zookeeper 
 
@@ -29,7 +31,11 @@ RUN mkdir -p /logs; \
     chmod -R 755 $ZOOKEEPER_DATA_DIR; \
     chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP $ZOOKEEPER_DATA_DIR; \
     mkdir -p /var/lib/zookeeper; \
-    chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /var/lib/zookeeper
+    chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /var/lib/zookeeper; 
+    #mkdir -p ${ZOOKEEPER_HOME}; \
+    #chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP ${ZOOKEEPER_HOME}; \
+    #chmod -R 755 ${ZOOKEEPER_HOME}
+
 #    mkdir -p ${ZOOKEEPER_HOME}}; \
 #    chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP $ZOOKEEPER_HOME
 ###
@@ -50,12 +56,15 @@ RUN usermod -s /bin/bash zookeeper
 RUN mkdir -p /tmp/setup
 COPY start-zookeeper.sh /tmp/setup/start-zookeeper.sh
 #RUN chmod +x /usr/bin/start-zookeeper.sh
-RUN chmod +x /tmp/setup/start-zookeeper.sh && chmod -R 755 /tmp/setup && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /tmp/setup
+RUN chmod +x /tmp/setup/start-zookeeper.sh && chmod -R 777 /tmp/setup && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /tmp/setup
+RUN chmod -R 777 /usr/hdp/3.1.0.0-78/zookeeper
 ##RUN chmod -R 777 ${ZOOKEEPER_HOME} && chown -R zookeeper:zookeeper ${ZOOKEEPER_HOME}
 ##COPY zoo.cfg /usr/hdp/current/zookeeper-server/conf/zoo.cfg
+##COPY zookeeper-env.sh /usr/hdp/current/zookeeper-server/conf/zookeeper-env.sh
 COPY zookeeper-env.sh /usr/hdp/current/zookeeper-server/conf/zookeeper-env.sh
-RUN mkdir -p /var/log/zookeeper && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /var/log/zookeeper
-RUN mkdir -p /usr/hdp/3.1.0.0-78/zookeeper/conf && chmod -R 755 /usr/hdp/3.1.0.0-78/zookeeper/conf && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /usr/hdp/3.1.0.0-78/zookeeper/conf
+##RUN chmod +x /tmp/setup/start-zookeeper.sh
+##RUN mkdir -p /zookeeper/conf && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /zookeeper/conf && chmod -R 755 /zookeeper/conf
+##RUN mkdir -p /usr/hdp/3.1.0.0-78/zookeeper/conf && chmod -R 755 /usr/hdp/3.1.0.0-78/zookeeper/conf && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /usr/hdp/3.1.0.0-78/zookeeper/conf
 USER zookeeper
 ##RUN mkdir -p /var/lib/zookeeper
 #RUN chmod 777 /zook && chmod 777 /etc/zookeeper/conf && chmod 777 /usr/hdp && chmod 777 /var/lib/zookeeper
