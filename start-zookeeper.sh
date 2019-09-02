@@ -93,6 +93,7 @@ MAX_CLIENT_CNXNS=60
 SNAP_RETAIN_COUNT=3
 PURGE_INTERVAL=0
 SERVERS=1
+TEMPDIR=/tmp/setup
 
 function print_usage() {
 echo "\
@@ -307,7 +308,7 @@ MAX_SESSION_TIMEOUT=${MAX_SESSION_TIMEOUT:- $((TICK_TIME*20))}
 ID_FILE="$DATA_DIR/myid"
 CONFIG_FILE="$CONF_DIR/zoo.cfg"
 LOGGER_PROPS_FILE="$CONF_DIR/log4j.properties"
-JAVA_ENV_FILE="$CONF_DIR/java.env"
+JAVA_ENV_FILE="$TEMPDIR/java.env"
 if [[ $HOST =~ (.*)-([0-9]+)$ ]]; then
     NAME=${BASH_REMATCH[1]}
     ORD=${BASH_REMATCH[2]}
@@ -320,3 +321,5 @@ MY_ID=$((ORD+1))
 
 ##create_config && create_jvm_props && create_log_props && create_data_dirs && exec /usr/hdp/current/zookeeper-server/bin/zkServer.sh start-foreground
 create_config && create_jvm_props && create_log_props && create_data_dirs && exec /usr/hdp/current/zookeeper-server/bin/zkServer.sh start-foreground
+
+##reate_config && create_jvm_props && create_log_props && create_data_dirs && exec /zookeeper/bin/zkServer.sh start-foreground
