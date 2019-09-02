@@ -2,10 +2,16 @@ FROM centos:7
 #ENV    ZOOKEEPER_CONF_DIR=/usr/hdp/3.1.0.0-78/zookeeper/conf \
 #        ZOOKEEPER_HOME=/usr/hdp/3.1.0.0-78/zookeeper \
 ENV    ZOOKEEPER_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper/logs \
-       ZOOKEEPER_PID_DIR=/etc/zookeeper/pid \
+       ZOOKEEPER_PID_DIR=/var/run/zookeeper/zookeeper_server.pid \
        ZOOKEEPER_DATA_DIR=/etc/zookeeper/data \
        ZOOKEEPER_USER=zookeeper \
-       ZOOKEEPER_GROUP=zookeeper
+       ZOOKEEPER_GROUP=zookeeper \
+       LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper/logs \
+       ZK_USER=zookeeper \
+       ZK_DATA_DIR=/etc/zookeeper/data \
+       ZK_DATA_LOG_DIR=/etc/zookeeper/data \ 
+       ZK_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper/logs \
+       JAVA_HOME=/usr/java/default
 RUN groupadd zookeeper; \
     useradd zookeeper -g zookeeper 
 
@@ -41,7 +47,15 @@ RUN export JAVA_HOME=/usr/java/default && export PATH=$JAVA_HOME/bin:$PATH
 
 RUN yum -y install zookeeper-server
 RUN usermod -s /bin/bash zookeeper
+RUN mkdir -p /tmp/setup
+COPY start-zookeeper.sh /tmp/setup/start-zookeeper.sh
+#RUN chmod +x /usr/bin/start-zookeeper.sh
+RUN chmod +x /tmp/setup/start-zookeeper.sh && chmod -R 755 /tmp/setup && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /tmp/setup
 ##RUN chmod -R 777 ${ZOOKEEPER_HOME} && chown -R zookeeper:zookeeper ${ZOOKEEPER_HOME}
+##COPY zoo.cfg /usr/hdp/current/zookeeper-server/conf/zoo.cfg
+COPY zookeeper-env.sh /usr/hdp/current/zookeeper-server/conf/zookeeper-env.sh
+RUN mkdir -p /var/log/zookeeper && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /var/log/zookeeper
+RUN mkdir -p /usr/hdp/3.1.0.0-78/zookeeper/conf && chmod -R 755 /usr/hdp/3.1.0.0-78/zookeeper/conf && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /usr/hdp/3.1.0.0-78/zookeeper/conf
 USER zookeeper
 ##RUN mkdir -p /var/lib/zookeeper
 #RUN chmod 777 /zook && chmod 777 /etc/zookeeper/conf && chmod 777 /usr/hdp && chmod 777 /var/lib/zookeeper
