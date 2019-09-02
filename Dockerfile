@@ -1,7 +1,7 @@
 FROM centos:7
 #ENV    ZOOKEEPER_CONF_DIR=/usr/hdp/3.1.0.0-78/zookeeper/conf \
 #        ZOOKEEPER_HOME=/usr/hdp/3.1.0.0-78/zookeeper \
-ENV    ZOOKEEPER_LOG_DIR=/usr/hdp/current/zookeeper-server/log \
+ENV    ZOOKEEPER_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper-server/logs \
        ZOOKEEPER_PID_DIR=/etc/zookeeper/pid \
        ZOOKEEPER_DATA_DIR=/etc/zookeeper/data \
        ZOOKEEPER_USER=zookeeper \
