@@ -59,6 +59,7 @@ COPY start-zookeeper.sh /tmp/setup/start-zookeeper.sh
 #RUN chmod +x /usr/bin/start-zookeeper.sh
 RUN chmod +x /tmp/setup/start-zookeeper.sh && chmod -R 777 /tmp/setup && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /tmp/setup
 RUN chmod -R 777 /usr/hdp/3.1.0.0-78/zookeeper
+RUN chmod 777 /usr/hdp/3.1.0.0-78/zookeeper/conf/zoo.cfg
 ##RUN chmod -R 777 ${ZOOKEEPER_HOME} && chown -R zookeeper:zookeeper ${ZOOKEEPER_HOME}
 ##COPY zoo.cfg /usr/hdp/current/zookeeper-server/conf/zoo.cfg
 ##COPY zookeeper-env.sh /usr/hdp/current/zookeeper-server/conf/zookeeper-env.sh
