@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  creationTimestamp: "2019-08-29T10:27:50Z"
+  generation: 1
+  name: zk
+  namespace: default
+  resourceVersion: "8566135"
+  selfLink: /apis/apps/v1/namespaces/default/statefulsets/zk
+  uid: a7418735-ca47-11e9-a084-7e00950d7170
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: zk
+  serviceName: zk-hs
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: zk
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - zk
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - command:
+        - sh
+        - -c
+        - /tmp/setup/start-zookeeper.sh --servers=3 --data_dir=/etc/zookeeper/data --data_log_dir=/usr/hdp/3.1.0.0-78/zookeeper/logs
+          --conf_dir=/usr/hdp/3.1.0.0-78/zookeeper/conf --client_port=2181 --election_port=3888 --server_port=2888
+          --tick_time=2000 --init_limit=10 --sync_limit=5 --heap=512M --max_client_cnxns=60
+          --snap_retain_count=3 --purge_interval=12 --max_session_timeout=40000 --min_session_timeout=4000
+          --log_level=INFO
+        image: siddharthjoshi/hortonworks-zookeeper:latest
+        imagePullPolicy: Always
+        name: kubernetes-zookeeper
+        ports:
+        - containerPort: 2181
+          name: client
+          protocol: TCP
+        - containerPort: 2888
+          name: server
+          protocol: TCP
+        - containerPort: 3888
+          name: leader-election
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/zookeeper/data
+          name: datadir
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+      terminationGracePeriodSeconds: 30
+  updateStrategy:
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - metadata:
+      creationTimestamp: null
+      name: datadir
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      dataSource: null
+      resources:
+        requests:
+          storage: 1Gi
+      volumeMode: Filesystem
