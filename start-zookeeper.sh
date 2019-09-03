@@ -73,6 +73,7 @@
 #     --log_level         The log level for the zookeeeper server. Either FATAL,
 #                         ERROR, WARN, INFO, DEBUG. The default is INFO.
 
+## working version
 
 USER=`whoami`
 HOST=`hostname -s`
