@@ -11,7 +11,7 @@ ENV    ZOOKEEPER_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper/logs \
        ZK_DATA_DIR=/etc/zookeeper/data \
        ZK_DATA_LOG_DIR=/etc/zookeeper/data \ 
        ZK_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper/logs 
-       #JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.231-2.6.19.1.el7_6.x86_64
+       ##JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.231-2.6.19.1.el7_6.x86_64
        #JAVA_HOME=/usr/java/default
       
 RUN groupadd zookeeper; \
@@ -47,7 +47,8 @@ RUN yum -y update &&  yum -y install wget gosu gnupg netcat; \
 
 RUN yum install -y java-1.7.0-openjdk java-1.7.0-openjdk-devel
 
-RUN mkdir /usr/java && ln -s /usr/hdp/current/jvm/java-1.7.0-openjdk-1.7.0.51.x86_64 /usr/java/default 
+##RUN mkdir /usr/java && ln -s /usr/hdp/current/jvm/java-1.7.0-openjdk-1.7.0.51.x86_64 /usr/java/default 
+RUN mkdir /usr/java && ln -s /usr/lib/jvm/java-1.7.0-openjdk-1.7.0.231-2.6.19.1.el7_6.x86_64 /usr/java/default 
 
 RUN export JAVA_HOME=/usr/java/default && export PATH=$JAVA_HOME/bin:$PATH 
 
@@ -61,11 +62,22 @@ RUN chmod -R 777 /usr/hdp/3.1.0.0-78/zookeeper
 ##RUN chmod -R 777 ${ZOOKEEPER_HOME} && chown -R zookeeper:zookeeper ${ZOOKEEPER_HOME}
 ##COPY zoo.cfg /usr/hdp/current/zookeeper-server/conf/zoo.cfg
 ##COPY zookeeper-env.sh /usr/hdp/current/zookeeper-server/conf/zookeeper-env.sh
-COPY zookeeper-env.sh /usr/hdp/current/zookeeper-server/conf/zookeeper-env.sh
+
+
+##COPY zookeeper-env.sh /usr/hdp/current/zookeeper-server/conf/zookeeper-env.sh
+
+
 ##RUN chmod +x /tmp/setup/start-zookeeper.sh
 ##RUN mkdir -p /zookeeper/conf && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /zookeeper/conf && chmod -R 755 /zookeeper/conf
 ##RUN mkdir -p /usr/hdp/3.1.0.0-78/zookeeper/conf && chmod -R 755 /usr/hdp/3.1.0.0-78/zookeeper/conf && chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP /usr/hdp/3.1.0.0-78/zookeeper/conf
-USER zookeeper
+##RUN ln -s /usr/hdp/current/zookeeper-server/bin/zkServer.sh /usr/bin/zkServer.sh
+
+
+##RUN mkdir -p /usr/hdp/3.1.0.0-78/zookeeper/bin/bin
+##RUN ln -s /usr/lib/jvm/java-1.7.0-openjdk-1.7.0.231-2.6.19.1.el7_6.x86_64/bin/java /usr/hdp/3.1.0.0-78/zookeeper/bin/bin/java
+
+
+##USER zookeeper 
 ##RUN mkdir -p /var/lib/zookeeper
 #RUN chmod 777 /zook && chmod 777 /etc/zookeeper/conf && chmod 777 /usr/hdp && chmod 777 /var/lib/zookeeper
 
