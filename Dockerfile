@@ -2,7 +2,7 @@ FROM centos:7
 #ENV    ZOOKEEPER_CONF_DIR=/usr/hdp/3.1.0.0-78/zookeeper/conf \
 #        ZOOKEEPER_HOME=/usr/hdp/3.1.0.0-78/zookeeper \
 ENV    ZOOKEEPER_LOG_DIR=/usr/hdp/3.1.0.0-78/zookeeper/logs \
-       ZOOKEEPER_PID_DIR=/var/run/zookeeper/zookeeper_server.pid \
+       #ZOOKEEPER_PID_DIR=/var/run/zookeeper/zookeeper_server.pid \
        ZOOKEEPER_DATA_DIR=/etc/zookeeper/data \
        ZOOKEEPER_USER=zookeeper \
        ZOOKEEPER_GROUP=zookeeper \
@@ -24,9 +24,9 @@ RUN mkdir -p /logs; \
     mkdir -p $ZOOKEEPER_LOG_DIR; \
     chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP $ZOOKEEPER_LOG_DIR; \
     chmod -R 755 $ZOOKEEPER_LOG_DIR; \
-    mkdir -p $ZOOKEEPER_PID_DIR; \
-    chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP $ZOOKEEPER_PID_DIR; \
-    chmod -R 755 $ZOOKEEPER_PID_DIR; \
+    #mkdir -p $ZOOKEEPER_PID_DIR; \
+    #chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP $ZOOKEEPER_PID_DIR; \
+    #chmod -R 755 $ZOOKEEPER_PID_DIR; \
     mkdir -p $ZOOKEEPER_DATA_DIR; \
     chmod -R 755 $ZOOKEEPER_DATA_DIR; \
     chown -R $ZOOKEEPER_USER:$ZOOKEEPER_GROUP $ZOOKEEPER_DATA_DIR; \
