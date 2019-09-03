@@ -82,7 +82,7 @@ RUN chmod 777 /usr/hdp/3.1.0.0-78/zookeeper/conf/zoo.cfg
 ##RUN mkdir -p /var/lib/zookeeper
 #RUN chmod 777 /zook && chmod 777 /etc/zookeeper/conf && chmod 777 /usr/hdp && chmod 777 /var/lib/zookeeper
 
-##RUN chown zookeeper:zookeeper /usr/hdp && chown zookeeper:zookeeper /var/lib/zookeeper
+RUN chown zookeeper:zookeeper /var/lib/zookeeper && chmod -R 777  /var/lib/zookeeper
 
 EXPOSE 2181 2888 3888 8080
 CMD ["/usr/hdp/current/zookeeper-server/bin/zkServer.sh", "start-foreground"]
