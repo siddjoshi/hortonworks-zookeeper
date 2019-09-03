@@ -326,4 +326,6 @@ MY_ID=$((ORD+1))
 
 ##reate_config && create_jvm_props && create_log_props && create_data_dirs && exec /zookeeper/bin/zkServer.sh start-foreground
 
-create_config && create_data_dirs && exec /usr/hdp/current/zookeeper-server/bin/zkServer.sh start-foreground
+##create_config && create_data_dirs && exec /usr/hdp/current/zookeeper-server/bin/zkServer.sh start-foreground
+
+create_config && create_data_dirs && exec /usr/hdp/current/zookeeper-server/bin/zkServer.sh start
